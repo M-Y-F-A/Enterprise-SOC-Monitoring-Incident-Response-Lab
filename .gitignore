@@ -1,0 +1,43 @@
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Linux temporary files
+*~
+*.swp
+*.swo
+
+# Windows logs and crash dumps
+*.log
+*.dmp
+
+# VMware artifacts
+*.vmx.lck
+*.vmdk.lck
+*.lck
+*.vmem
+*.vmss
+*.vmsd
+*.nvram
+*.vmxf
+
+# Virtual disk snapshots and temp copies
+*.vmsn
+*.delta.vmdk
+*.ctk.vmdk
+
+# OpenVPN/runtime temp files
+*.ovpn-status
+*.pid
+
+# Security tooling output (local only)
+*.evtx
+*.etl
+
+# Python (utility scripts if used)
+__pycache__/
+*.pyc
+
+# Node (utility scripts if used)
+node_modules/
