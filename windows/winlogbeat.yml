@@ -1,0 +1,5 @@
+# Placeholder Winlogbeat configuration file
+# Configure event log channels and output destination (e.g., Splunk or intermediary pipeline).
+winlogbeat.event_logs:
+  - name: Security
+  - name: Sysmon

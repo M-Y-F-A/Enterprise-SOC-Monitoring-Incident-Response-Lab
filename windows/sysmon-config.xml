@@ -1,0 +1,6 @@
+<!-- Placeholder Sysmon configuration file. Replace with a tuned production/lab policy. -->
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+    <!-- Add include/exclude rules here -->
+  </EventFiltering>
+</Sysmon>
