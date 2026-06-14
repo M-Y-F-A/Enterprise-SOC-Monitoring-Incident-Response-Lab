@@ -2,184 +2,281 @@
 
 ## Introduction
 
-This project is an enterprise-style SOC home lab built to simulate realistic attack and defense scenarios in a controlled environment. The lab is designed to provide hands-on experience with security monitoring, log analysis, detection engineering, and incident investigation using industry-standard tools and technologies.
+This project is an enterprise-style SOC home lab designed to simulate realistic attack and defense scenarios in a controlled environment. The lab provides hands-on experience in security monitoring, log analysis, detection engineering, and incident investigation using industry-standard tools and frameworks.
 
-The environment replicates a small corporate network consisting of Windows endpoints, Active Directory services, centralized log collection, and remote access infrastructure.
+The environment replicates a small corporate network with Active Directory infrastructure, Windows endpoints, centralized logging, VPN-based remote access, and attacker simulation capabilities.
 
 ---
 
-## Lab Objectives
+# Lab Objectives
 
-The primary goals of this lab are to:
+The primary objectives of this lab are:
 
 * Build a centralized logging and monitoring environment using Splunk SIEM.
+* Deploy and configure Active Directory for identity and access management.
 * Collect endpoint and authentication telemetry from Windows systems.
-* Simulate realistic attack scenarios and adversary behavior.
-* Develop and validate detection use cases aligned with MITRE ATT&CK.
-* Practice incident investigation and security monitoring workflows.
+* Simulate real-world attack scenarios and adversary behavior.
+* Develop detection use cases aligned with MITRE ATT&CK framework.
+* Practice incident investigation and SOC workflows.
+* Understand enterprise-level security architecture and hardening practices.
 
 ---
 
-## Environment Components
+# Environment Overview
 
-### Splunk Server
+## Domain Information
 
-**Operating System:** Ubuntu Server LTS
-
-**Role:**
-
-* Centralized log collection
-* Search and analysis
-* Detection engineering
-* Alerting and dashboards
-* Incident investigation
+| Item              | Value                                    |
+| ----------------- | ---------------------------------------- |
+| Domain Name       | lab.local                                |
+| Forest            | lab.local                                |
+| Domain Controller | DC1                                      |
+| Directory Service | Active Directory Domain Services (AD DS) |
 
 ---
 
-### Windows 10 Endpoint
+## Virtual Machines
 
-**Operating System:** Windows 10
-
-**Role:**
-
-* User workstation simulation
-* Endpoint telemetry source
-* Authentication activity source
-* Initial attack target
-
----
-
-### Active Directory Server
-
-**Operating System:** Windows Server 2022
-
-**Role:**
-
-* Domain Controller
-* DNS services
-* User authentication
-* Group policy management
-
-**Domain Name:**
-
-```text
-lab.local
-```
+| Hostname         | Role                      | Operating System    |
+| ---------------- | ------------------------- | ------------------- |
+| DC1              | Domain Controller         | Windows Server 2022 |
+| WIN10-CLIENT1    | Domain-Joined Workstation | Windows 10          |
+| SPLUNK-SERVER    | SIEM Platform             | Ubuntu Server LTS   |
+| VPN-SERVER       | Remote Access Server      | Ubuntu Server LTS   |
+| KALI-LINUX (AWS) | External Attacker         | Kali Linux (Cloud)  |
 
 ---
 
-### OpenVPN Server
+# Network Architecture
 
-**Operating System:** Ubuntu Server LTS
-
-**Role:**
-
-* Secure remote access
-* VPN tunnel termination
-* Controlled access into the internal environment
-
----
-
-### Kali Linux (AWS)
-
-**Platform:** AWS EC2
-
-**Role:**
-
-* External attacker simulation
-* Adversary emulation
-* Attack execution and testing
-
----
-
-## Network Architecture
-
-### Internal Network
+## Internal Network
 
 ```text
 192.168.10.0/24
 ```
 
-Hosts:
+### Hosts:
 
-* Splunk Server (192.168.10.10)
-* Windows 10 Endpoint (192.168.10.20)
-* Active Directory Server (192.168.10.30)
-* OpenVPN Server (192.168.10.40)
+* SPLUNK-SERVER → 192.168.10.10
+* WIN10-CLIENT1 → 192.168.10.20
+* DC1 → 192.168.10.30
+* VPN-SERVER → 192.168.10.40
 
 ---
 
-### VPN Network
+## VPN Network
 
 ```text
 10.8.0.0/24
 ```
 
-Hosts:
+### Hosts:
 
-* OpenVPN Server (10.8.0.1)
-* Kali Linux (10.8.0.2)
+* VPN-SERVER → 10.8.0.1
+* KALI-LINUX → 10.8.0.2
 
 ---
 
-## Log Collection Architecture
+# Active Directory Infrastructure
 
-The lab uses Splunk Universal Forwarder to collect and forward logs from Windows systems to Splunk.
+## Domain Configuration
 
-### Data Sources
+* Domain Name: `lab.local`
+* Primary Domain Controller: `DC1`
 
-* Windows Security Logs
-* Windows System Logs
-* Windows Application Logs
-* Sysmon Logs
+---
 
-### Log Flow
+## Full Active Directory Structure
 
 ```text
-Windows 10
+lab.local
+└── Corp (OU)
+    ├── Computers (OU)
+    │   │
+    │   ├── Domain Controllers (OU)
+    │   │   └── DC1                     → Computer
+    │   │
+    │   ├── Servers (OU)
+    │   │   ├── SPLUNK-SERVER           → Computer
+    │   │   └── VPN-SERVER              → Computer
+    │   │
+    │   └── Workstations (OU)
+    │       ├── WIN10-CLIENT1           → Computer
+    │       └── WIN10-CLIENT2           → Computer
+    │
+    ├── Groups (OU)
+    │   │
+    │   ├── IT Admins                   → Security Group
+    │   │   └── it.admin
+    │   │
+    │   ├── HR Staff                    → Security Group
+    │   │   └── hr.user1
+    │   │
+    │   ├── SOC Analysts                → Security Group
+    │   │   ├── soc.analyst1
+    │   │   └── soc.analyst2
+    │   │
+    │   └── VPN Users                   → Security Group
+    │       ├── hr.user1
+    │       ├── it.admin
+    │       └── soc.analyst1
+    │
+    ├── Security (OU)
+    │   │
+    │   ├── Audit Policies              → OU (logging & auditing GPOs)
+    │   ├── GPO Targets                 → OU (GPO linking scope)
+    │   └── Restricted Groups           → OU (local admin control policies)
+    │
+    └── Users (OU)
+        │
+        ├── HR Users (OU)
+        │   └── hr.user1                → User        
         |
-        | Splunk Universal Forwarder
-        v
-Splunk Server
-
-Active Directory Server
-        |
-        | Splunk Universal Forwarder
-        v
-Splunk Server
+        ├── IT Users (OU)
+        │   ├── it.admin                → User
+        │   └── it.user1                → User
+        │
+        ├── Sales (OU)
+        │   └── sales.user1             → User
+        │
+        ├── Service Accounts (OU)
+        |    ├── splunk.service         → User (service account)
+        |    ├── vpn.service            → User (service account)
+        |    └── sysmon.service         → User (service account)   
+        |     
+        └── SOC Users (OU)
+             ├── soc.analyst1           → User
+             └── soc.analyst2           → User
 ```
 
 ---
 
-## Attack Simulation Scenario
+## User Accounts
 
-The lab simulates a realistic remote-access compromise scenario.
+### IT Users
 
-An attacker gains unauthorized VPN access using compromised credentials obtained through phishing, malware infection, or other credential theft techniques. Once connected to the VPN, the attacker gains access to the internal network and performs post-compromise activities such as enumeration, authentication attempts, and lateral movement.
+* it.admin
+* it.user1
 
-The resulting activity generates logs that are collected by Splunk and used for detection, investigation, and incident response exercises.
+### HR Users
+
+* hr.user1
+
+### Sales Users
+
+* sales.user1
+
+### SOC Users
+
+* soc.analyst1
+* soc.analyst2
+
+### Service Accounts
+
+* splunk.service
+* vpn.service
+* sysmon.service
 
 ---
 
-## Security Monitoring Goals
+## Security Groups
 
-The lab focuses on detecting and investigating:
+### IT Admins
 
-* Failed and successful authentication events
-* Brute force activity
+* it.admin
+
+### HR Staff
+
+* hr.user1
+
+### SOC Analysts
+
+* soc.analyst1
+* soc.analyst2
+
+### VPN Users
+
+* it.admin
+* hr.user1
+* soc.analyst1
+
+---
+
+## Group Policy Objects (GPOs)
+
+The following GPOs were implemented for security hardening and monitoring:
+
+* SEC-Audit-Policies
+* SEC-Workstation-Baseline
+* SEC-Server-Hardening
+* SEC-Restricted-LocalAdmins
+
+### Configured Controls:
+
+* Logon and authentication auditing
+* Process creation monitoring
+* Credential validation tracking
+* Windows Firewall enforcement
+* Local administrator restriction policies
+
+---
+
+# Log Collection Architecture
+
+Splunk Universal Forwarder is used to collect logs from Windows endpoints and forward them to the Splunk SIEM server.
+
+## Data Sources
+
+* Windows Security Logs
+* Windows System Logs
+* Windows Application Logs
+* Sysmon Logs (planned or deployed)
+
+## Log Flow
+
+```text
+WIN10-CLIENT1 → Splunk Universal Forwarder → SPLUNK-SERVER
+DC1           → Splunk Universal Forwarder → SPLUNK-SERVER
+```
+
+---
+
+# VPN & Attack Simulation
+
+The lab includes a VPN-based remote access layer to simulate real-world external access scenarios.
+
+## Scenario Overview
+
+An attacker gains access via VPN using compromised credentials and performs post-compromise activities such as:
+
+* Network enumeration
+* Authentication attempts
+* Privilege escalation
+* Lateral movement
+
+All activities generate telemetry that is collected and analyzed in Splunk for detection engineering and incident response exercises.
+
+---
+
+# Security Monitoring Goals
+
+The lab focuses on detecting:
+
+* Authentication anomalies (success/failure patterns)
+* Brute force attempts
 * Suspicious process execution
-* Remote access activity
-* Lateral movement behavior
+* Remote login behavior
 * Privilege escalation attempts
+* Lateral movement activity
 * Endpoint telemetry anomalies
 
 ---
 
-## Technologies Used
+# Technologies Used
 
 * Splunk SIEM
 * Splunk Universal Forwarder
-* Active Directory
+* Active Directory Domain Services
 * Windows Server 2022
 * Windows 10
 * Sysmon
