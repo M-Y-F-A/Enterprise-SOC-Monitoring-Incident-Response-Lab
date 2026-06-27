@@ -1,48 +1,54 @@
-```conf
 client
 dev tun
-proto udp
-
-#############################################
-# VPN Server
-#############################################
-
-remote YOUR_PUBLIC_IP 1194
-
-#############################################
-# Certificates
-#############################################
-
-ca ca.crt
-cert kali.crt
-key kali.key
-tls-auth ta.key 1
-
-#############################################
-# Security
-#############################################
-
-cipher AES-256-GCM
-auth SHA512
-
-#############################################
-# Connection
-#############################################
-
+proto tcp
+remote YOUR_PUBLIC_IP YOUR_PORT
 resolv-retry infinite
 nobind
 persist-key
 persist-tun
-
-#############################################
-# Verification
-#############################################
-
 remote-cert-tls server
-
-#############################################
-# Logging
-#############################################
-
+auth SHA512
+cipher AES-256-GCM
 verb 3
-```
+
+<ca>
+# Contents of:
+# pki/ca.crt
+
+-----BEGIN CERTIFICATE-----
+
+-----END CERTIFICATE-----
+</ca>
+
+<cert>
+# Certificate section from:
+# pki/issued/<CLIENT_NAME>.crt
+# (Only the BEGIN CERTIFICATE ... END CERTIFICATE block)
+
+-----BEGIN CERTIFICATE-----
+
+-----END CERTIFICATE-----
+</cert>
+
+<key>
+# Contents of:
+# pki/private/<CLIENT_NAME>.key
+
+-----BEGIN PRIVATE KEY-----
+
+-----END PRIVATE KEY-----
+</key>
+
+<tls-auth>
+# Contents of:
+# ta.key
+
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+
+-----END OpenVPN Static key V1-----
+</tls-auth>
+
+key-direction 1
