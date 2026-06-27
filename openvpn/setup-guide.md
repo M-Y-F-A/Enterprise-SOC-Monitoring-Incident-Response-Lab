@@ -158,17 +158,17 @@ Enable client-to-client communication:
 client-to-client
 ```
 
-Certificate Paths (use absolute paths)
+Certificate
 ```text
-ca /etc/openvpn/server/ca.crt
-cert /etc/openvpn/server/server.crt
-key /etc/openvpn/server/server.key
-dh /etc/openvpn/server/dh.pem
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
 ```
 
 Enable TLS Authentication (tls-auth)
 ```text
-tls-auth /etc/openvpn/server/ta.key 0
+tls-auth ta.key 0
 ```
 Set HMAC Authentication Algorithm (auth)
 This is critical – both server and client must use the same algorithm.
