@@ -16,7 +16,7 @@ The primary objectives of this lab are:
 * Deploy and configure Active Directory for identity and access management.
 * Collect endpoint and authentication telemetry from Windows systems.
 * Simulate real-world attack scenarios and adversary behavior.
-* Develop detection use cases aligned with MITRE ATT&CK framework.
+* Develop detection rules and detection use cases aligned with the MITRE ATT&CK framework.
 * Practice incident investigation and SOC workflows.
 * Understand enterprise-level security architecture and hardening practices.
 
@@ -48,6 +48,8 @@ The primary objectives of this lab are:
 ---
 
 # Network Architecture
+
+![Enterprise SOC Lab Architecture](..\screenshots\phase-1-infrastructure\01-vm-creation\network-diagram.png)
 
 ## Internal Network
 
@@ -230,7 +232,7 @@ Splunk Universal Forwarder is used to collect logs from Windows endpoints and fo
 * Windows Security Logs
 * Windows System Logs
 * Windows Application Logs
-* Sysmon Logs (planned or deployed)
+* Sysmon Operational Logs
 
 ## Log Flow
 
@@ -247,12 +249,20 @@ The lab includes a VPN-based remote access layer to simulate real-world external
 
 ## Scenario Overview
 
-An attacker gains access via VPN using compromised credentials and performs post-compromise activities such as:
+An attacker gains access through the VPN infrastructure and executes controlled attack simulations representing common enterprise attack techniques.
 
-* Network enumeration
-* Authentication attempts
-* Privilege escalation
-* Lateral movement
+The simulated activities include:
+
+- Password brute force
+- Authentication anomalies
+- Malicious PowerShell execution
+- Account manipulation
+- Windows persistence
+- Credential access
+- Lateral movement
+- Network reconnaissance
+
+Each attack simulation is documented through dedicated playbooks and validated using Splunk detection rules and dashboards.
 
 All activities generate telemetry that is collected and analyzed in Splunk for detection engineering and incident response exercises.
 
@@ -262,13 +272,30 @@ All activities generate telemetry that is collected and analyzed in Splunk for d
 
 The lab focuses on detecting:
 
-* Authentication anomalies (success/failure patterns)
+* Authentication anomalies
 * Brute force attempts
-* Suspicious process execution
-* Remote login behavior
-* Privilege escalation attempts
-* Lateral movement activity
-* Endpoint telemetry anomalies
+* Malicious PowerShell execution
+* Account manipulation
+* Windows persistence
+* Credential access
+* Lateral movement
+* Network reconnaissance
+* Threat hunting support
+* Detection engineering validation
+
+---
+
+# Detection Engineering
+
+The lab includes a dedicated Detection Engineering workflow built around:
+
+- Detection Rules
+- Detection Use Cases
+- Attack Simulation Playbooks
+- SOC Dashboards
+- MITRE ATT&CK Mapping
+
+Each attack simulation generates telemetry that is validated against implemented Splunk detection rules and visualized through dedicated SOC dashboards.
 
 ---
 

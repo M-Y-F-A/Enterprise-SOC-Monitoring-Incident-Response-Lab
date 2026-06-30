@@ -188,32 +188,38 @@ Additional field extraction and normalization rules will be added as the lab evo
 
 ## Detection Engineering
 
-Detection use cases are built around common attack techniques and SOC monitoring scenarios, including:
+Detection content is organized using a catalog-based structure.
 
-* Brute-force authentication attempts
-* Suspicious login activity
-* Account misuse
-* Privilege escalation attempts
-* PowerShell abuse
-* Suspicious process execution
-* VPN access anomalies
-* Active Directory abuse
-* Lateral movement indicators
+The `detection-catalog.md` document provides a high-level overview of all implemented detection rules, while detailed documentation for each rule is maintained individually under the `rules/` directory.
 
-Detection content is mapped to the MITRE ATT&CK framework where applicable.
+Each detection rule includes:
+
+- Detection objective
+- Threat description
+- SPL search
+- Required data sources
+- Windows Event IDs
+- MITRE ATT&CK mapping
+- Detection threshold
+- Investigation guidance
+
+Detection content is validated through attack simulations and mapped to the MITRE ATT&CK framework.
 
 ---
 
 ## Dashboards
 
-The lab includes dashboards focused on:
+Dashboard documentation follows the same catalog-based structure as the detection content.
 
-* Authentication Monitoring
-* Endpoint Activity
-* Sysmon Visibility
-* Active Directory Activity
-* VPN Monitoring
-* Threat Detection Overview
+The `dashboard-catalog.md` document provides an overview of all dashboards, while detailed documentation for each dashboard is maintained under the `dashboards/` directory.
+
+Implemented dashboards include:
+
+- Authentication Dashboard
+- Endpoint Activity Dashboard
+- Detection & Alerts Dashboard
+- Threat Hunting Dashboard
+- MITRE ATT&CK Coverage Dashboard
 
 ---
 

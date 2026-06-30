@@ -1,116 +1,274 @@
-# Enterprise SOC Monitoring & Incident Response Home Lab
+# Enterprise SOC Monitoring & Incident Response Lab
 
-A professional SOC home lab designed to simulate enterprise-grade security monitoring, detection engineering, and incident response across a realistic end-to-end attack chain.
+A professional blue-team home lab designed to simulate enterprise security monitoring, detection engineering, threat hunting, and incident response across a realistic end-to-end attack lifecycle using Splunk Enterprise, Active Directory, Sysmon, and OpenVPN.
 
----
-
-## SOC Lab Objective
-
-This lab demonstrates a practical blue-team environment focused on:
-
-- End-to-end attack simulation from external access to internal domain compromise
-- Centralized telemetry collection and SIEM-based detection engineering
-- Incident investigation and response workflows aligned with SOC operations
-- Mapping security events to MITRE ATT&CK techniques for structured analysis
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Ubuntu-blue)
+![SIEM](https://img.shields.io/badge/SIEM-Splunk%20Enterprise-green)
+![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
+![MITRE](https://img.shields.io/badge/MITRE-ATT%26CK-red)
+![License](https://img.shields.io/badge/License-Educational-lightgrey)
 
 ---
 
-## Attack Flow
+## Table of Contents
 
-**Kali Linux (AWS) → OpenVPN → Windows 10 → Active Directory → Splunk SIEM**
+- [Enterprise SOC Monitoring \& Incident Response Lab](#enterprise-soc-monitoring--incident-response-lab)
+  - [Table of Contents](#table-of-contents)
+  - [Repository Guide](#repository-guide)
+  - [SOC Lab Objectives](#soc-lab-objectives)
+  - [Attack Chain](#attack-chain)
+  - [Network Architecture](#network-architecture)
+  - [Architecture Overview](#architecture-overview)
+  - [Technology Stack](#technology-stack)
+  - [Detection Engineering](#detection-engineering)
+  - [MITRE ATT\&CK Coverage](#mitre-attck-coverage)
+  - [Repository Structure](#repository-structure)
+  - [Skills Demonstrated](#skills-demonstrated)
+  - [Evidence](#evidence)
+  - [Future Improvements](#future-improvements)
+  - [License](#license)
 
-1. **Kali Linux (AWS):** External attacker simulation host
-2. **OpenVPN:** Secure encrypted tunnel into internal lab network
-3. **Windows 10 Endpoint:** Initial compromise target and telemetry source
-4. **Active Directory (Windows Server):** Identity management and domain control plane
-5. **Splunk SIEM:** Centralized logging, correlation, detection, and investigation
+---
+
+## Repository Guide
+
+If you're reviewing this repository for the first time, the recommended reading order is:
+
+1. `docs/lab-overview.md`
+2. `architecture/README.md`
+3. `docs/logging-architecture.md`
+4. `splunk/README.md`
+5. `docs/detection-use-cases.md`
+6. `splunk/detection-catalog.md`
+7. `splunk/rules/`
+8. `attack-simulation/playbooks.md`
+9. `docs/attack-scenario.md`
+10. `splunk/dashboard-catalog.md`
+11. `splunk/dashboards/`
+12. `logs-evidence/`
+13. `screenshots/`
+14. `MITRE-ATTACK-MAPPING.md`
+
+---
+
+## SOC Lab Objectives
+
+This project demonstrates the implementation of an enterprise-style Security Operations Center (SOC) environment focused on:
+
+- Building centralized log collection and monitoring with Splunk Enterprise
+- Simulating realistic attacker behavior inside an isolated lab environment
+- Developing and validating detection rules for common attack techniques
+- Creating SOC dashboards for monitoring and incident response
+- Performing threat hunting using Windows and Sysmon telemetry
+- Mapping detections to the MITRE ATT&CK framework
+- Documenting end-to-end detection engineering workflows
+
+---
+
+## Attack Chain
+
+```text
+External Attacker (Kali Linux)
+            │
+            ▼
+        OpenVPN Access
+            │
+            ▼
+     Windows Workstation
+            │
+            ▼
+      Active Directory
+            │
+            ▼
+   Windows & Sysmon Logs
+            │
+            ▼
+     Splunk Enterprise
+            │
+            ▼
+     Detection Rules
+            │
+            ▼
+      Splunk Alerts
+            │
+            ▼
+      SOC Dashboards
+            │
+            ▼
+ Incident Investigation
+```
+
+---
+
+## Network Architecture
+
+![Enterprise SOC Lab Architecture](screenshots\phase-1-infrastructure\01-vm-creation\network-diagram.png)
 
 ---
 
 ## Architecture Overview
 
-The lab simulates a segmented enterprise environment with full SOC visibility:
+The lab simulates a small enterprise environment with centralized security monitoring.
 
-- External access controlled via VPN into isolated internal network
-- Windows endpoints joined to Active Directory domain
-- Security and endpoint telemetry forwarded to Splunk SIEM
-- Detection engineering aligned with ATT&CK framework
+Core components include:
 
-### Key References
+- Active Directory domain infrastructure
+- Windows workstation endpoint
+- Splunk Enterprise SIEM
+- Sysmon endpoint telemetry
+- OpenVPN remote access
+- External attacker simulation from Kali Linux (AWS)
+
+For detailed architecture diagrams and network design, see:
+
 - `/architecture`
-- `/docs`
-- `/splunk`
+- `/docs/lab-overview.md`
+- `/docs/logging-architecture.md`
 
 ---
 
-## Data Sources (Telemetry)
+## Technology Stack
 
-This lab collects and analyzes the following security data sources:
-
-- Windows Security Event Logs (Authentication, Logon Events)
-- Sysmon (Process creation, network connections, file activity)
-- VPN logs (remote access and authentication activity)
-- Active Directory authentication events
-- Splunk ingested normalized event data
-
----
-
-## Tools Used
-
-- **Splunk SIEM** – detection, correlation, dashboards, and investigations
-- **Windows Server Active Directory** – identity and authentication backbone
-- **Sysmon** – detailed endpoint telemetry visibility
-- **OpenVPN** – secure remote access simulation
-- **VMware** – virtualization and network segmentation
+| Technology | Purpose |
+|------------|---------|
+| Splunk Enterprise | SIEM, detection engineering, dashboards, investigations |
+| Windows Server 2022 | Active Directory Domain Controller |
+| Windows 10 | Domain-joined endpoint |
+| Sysmon | Advanced endpoint telemetry |
+| Splunk Universal Forwarder | Log forwarding |
+| OpenVPN | Secure remote access simulation |
+| VMware Workstation | Virtualization platform |
+| AWS EC2 (Kali Linux) | External attacker simulation |
+| Git & GitHub | Version control and project documentation |
 
 ---
 
-## Detection Use Cases
+## Detection Engineering
 
-The lab focuses on SOC-relevant detection scenarios:
+The Detection Engineering workflow includes:
 
-- **Brute Force Activity** (multiple failed authentication attempts)
-- **Lateral Movement** (remote service execution, admin share access)
-- **Authentication Anomalies** (impossible travel, unusual logon types)
-- **Suspicious Process Execution** (parent-child process anomalies)
+- Detection Use Cases
+- Splunk Detection Rules
+- Attack Simulation Playbooks
+- Attack Scenarios
+- SOC Dashboards
+- MITRE ATT&CK Mapping
 
-Details are implemented in:
-- `/docs/detection-use-cases.md`
-- `/splunk/detection-rules.md`
+Implemented detection categories include:
+
+- Brute Force Authentication
+- Authentication Anomalies
+- Malicious PowerShell
+- Account Manipulation
+- Windows Persistence
+- Credential Access
+- Lateral Movement
+- Network Reconnaissance
+
+Each detection is documented with:
+
+- Detection objective
+- SPL search
+- Required telemetry
+- Windows Event IDs
+- MITRE ATT&CK mapping
+- Alert severity
+- Investigation guidance
+- False positive considerations
 
 ---
 
-## MITRE ATT&CK Mapping
+## MITRE ATT&CK Coverage
 
-This lab maps detections and behaviors to ATT&CK techniques:
+Current detection coverage includes:
 
-- **T1110** – Brute Force
-- **T1021** – Remote Services (Lateral Movement)
-- **T1078** – Valid Accounts
-- **T1550** – Use of Alternate Authentication Material
+| Technique | Description |
+|-----------|-------------|
+| T1110 | Brute Force |
+| T1078 | Valid Accounts |
+| T1059.001 | PowerShell |
+| T1136 | Create Account |
+| T1098 | Account Manipulation |
+| T1053.005 | Scheduled Task |
+| T1543.003 | Create or Modify System Process: Windows Service |
+| T1003.001 | LSASS Memory |
+| T1021 | Remote Services |
+| T1046 | Network Service Discovery |
 
-This mapping is used to standardize detection engineering and incident analysis.
-
----
-
-## Future Improvements
-
-- Expand ATT&CK coverage matrix with detection maturity scoring
-- Add automated adversary emulation for repeatable attack testing
-- Integrate additional data sources (DNS, proxy, firewall, EDR)
-- Build incident response playbooks with severity-based workflows
-- Introduce baseline behavior profiling and false-positive tuning
+Additional ATT&CK coverage will be added as new detections are implemented.
 
 ---
 
 ## Repository Structure
 
-- `/architecture` – Network topology and architecture diagrams
-- `/docs` – Documentation, detection use cases, and logging design
-- `/infra` – VMware setup, IP planning, and network configuration
-- `/splunk` – Detection rules, dashboards, and configurations
-- `/windows` – Sysmon and event logging configuration
-- `/openvpn` – VPN configuration and setup guides
-- `/attack-simulation` – Attack scenarios and simulation scripts
-- `/screenshots` – Evidence of dashboards and alerts
-- `/diagrams` – Visual architecture and attack flow diagrams
+```text
+Enterprise-SOC-Monitoring-Incident-Response-Lab
+│
+├── architecture/         Architecture diagrams and design
+├── attack-simulation/    Attack playbooks
+├── docs/                 Project documentation
+├── infra/                Infrastructure configuration
+├── logs-evidence/        Alerts, telemetry, and investigation evidence
+├── openvpn/              VPN configuration
+├── screenshots/          Validation screenshots
+├── splunk/               Detection engineering and SIEM configuration
+└── windows/              Windows logging configuration
+```
+
+---
+
+## Skills Demonstrated
+
+This project demonstrates practical experience in:
+
+- Splunk Enterprise Administration
+- Detection Engineering
+- SIEM Administration
+- Windows Event Analysis
+- Sysmon Monitoring
+- Active Directory Security
+- Threat Hunting
+- Incident Investigation
+- Log Analysis
+- MITRE ATT&CK Mapping
+- VPN Security Monitoring
+- SOC Monitoring & Operations
+- Blue Team Methodology
+
+---
+
+## Evidence
+
+The repository includes supporting evidence for each implementation phase, including:
+
+- Infrastructure deployment screenshots
+- Splunk configuration validation
+- Detection rule validation
+- Dashboard screenshots
+- Attack simulation evidence
+- Windows and Sysmon logs
+- Splunk alerts
+- Incident investigation artifacts
+
+---
+
+## Future Improvements
+
+Planned enhancements include:
+
+- Expand MITRE ATT&CK coverage
+- Add additional Windows attack techniques
+- Integrate DNS, Firewall, and Syslog telemetry
+- Build additional SOC dashboards
+- Improve detection tuning and false positive reduction
+- Develop complete incident response case studies
+- Expand attack simulation playbooks
+- Introduce detection coverage metrics
+
+---
+
+## License
+
+This project is intended for educational purposes, detection engineering practice, and blue-team skill development within an isolated lab environment.
+
+All attack simulations are performed in a controlled environment and are intended solely for defensive security research and learning.
