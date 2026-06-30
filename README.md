@@ -34,20 +34,21 @@ A professional blue-team home lab designed to simulate enterprise security monit
 
 If you're reviewing this repository for the first time, the recommended reading order is:
 
-1. `docs/lab-overview.md`
-2. `architecture/README.md`
-3. `docs/logging-architecture.md`
-4. `splunk/README.md`
-5. `docs/detection-use-cases.md`
-6. `splunk/detection-catalog.md`
-7. `splunk/rules/`
-8. `attack-simulation/playbooks.md`
-9. `docs/attack-scenario.md`
-10. `splunk/dashboard-catalog.md`
-11. `splunk/dashboards/`
-12. `logs-evidence/`
-13. `screenshots/`
-14. `MITRE-ATTACK-MAPPING.md`
+1. `README.md`
+2. `docs/lab-overview.md`
+3. `architecture/README.md`
+4. `docs/logging-architecture.md`
+5. `splunk/README.md`
+6. `docs/detection-use-cases.md`
+7. `splunk/detection-catalog.md`
+8. `splunk/rules/`
+9. `attack-simulation/playbooks.md`
+10. `docs/attack-scenario.md`
+11. `splunk/dashboard-catalog.md`
+12. `splunk/dashboards/`
+13. `logs-evidence/`
+14. `screenshots/`
+15. `MITRE-ATTACK-MAPPING.md`
 
 ---
 
@@ -139,7 +140,7 @@ For detailed architecture diagrams and network design, see:
 | OpenVPN | Secure remote access simulation |
 | VMware Workstation | Virtualization platform |
 | AWS EC2 (Kali Linux) | External attacker simulation |
-| Git & GitHub | Version control and project documentation |
+| Git & GitHub |project documentation |
 
 ---
 
@@ -194,8 +195,6 @@ Current detection coverage includes:
 | T1003.001 | LSASS Memory |
 | T1021 | Remote Services |
 | T1046 | Network Service Discovery |
-
-Additional ATT&CK coverage will be added as new detections are implemented.
 
 ---
 
