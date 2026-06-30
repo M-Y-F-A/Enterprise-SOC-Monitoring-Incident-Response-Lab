@@ -2,7 +2,7 @@
 
 A professional blue-team home lab designed to simulate enterprise security monitoring, detection engineering, threat hunting, and incident response across a realistic end-to-end attack lifecycle using Splunk Enterprise, Active Directory, Sysmon, and OpenVPN.
 
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Ubuntu-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux-blue)
 ![SIEM](https://img.shields.io/badge/SIEM-Splunk%20Enterprise-green)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![MITRE](https://img.shields.io/badge/MITRE-ATT%26CK-red)
