@@ -78,37 +78,6 @@ Detailed index configuration is documented in `splunk/README.md`.
 
 ---
 
-# Detection Pipeline
-
-After ingestion, security events move through the following workflow:
-
-```text
-Telemetry
-     │
-     ▼
-Parsing & Indexing
-     │
-     ▼
-Searches
-     │
-     ▼
-Detection Rules
-     │
-     ▼
-Alerts
-     │
-     ▼
-SOC Dashboards
-     │
-     ▼
-Threat Hunting
-     │
-     ▼
-Incident Investigation
-```
-
----
-
 # Supported Security Monitoring
 
 The logging architecture provides visibility into:
