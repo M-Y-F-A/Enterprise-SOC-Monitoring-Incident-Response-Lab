@@ -47,71 +47,35 @@ External attacker simulation is performed from a Kali Linux host running on AWS 
 ```text
 lab.local
 │
-├── Domain Controller (DC1)
-│
+├── Active Directory Domain Services
 ├── Organizational Units
-│   ├── Users
-│   ├── Groups
-│   ├── Computers
-│   └── Security
-│
+├── Security Groups
+├── User Accounts
 └── Group Policy Objects
-    ├── Audit Policies
-    ├── Workstation Baseline
-    ├── Server Hardening
-    └── Restricted Groups
 ```
+
+For the complete Active Directory structure, including Organizational Units, users, groups, service accounts, and GPOs, see:
+
+`docs/lab-overview.md`
+
 
 ---
 
-# Log Collection Architecture
-
-Security telemetry is forwarded to Splunk Enterprise using Splunk Universal Forwarder.
+# Log Collection / Data Flow
 
 ```text
 Windows Endpoint
+DC1
+VPN Server
         │
         ▼
-Universal Forwarder
-        │
-        ▼
-Splunk Enterprise
-        │
-        ▼
-Indexes
-        │
-        ▼
-Detection Rules
-        │
-        ▼
-Dashboards
-        │
-        ▼
-Incident Investigation
-```
-
----
-
-# Data Flow
-
-```text
-Windows Security Logs
-PowerShell Logs
-Sysmon Logs
-Active Directory Logs
-VPN Logs
-        │
-        ▼
-Splunk Universal Forwarders
+Splunk Universal Forwarder
         │
         ▼
 Splunk Enterprise
         │
         ▼
 Indexes
-        │
-        ▼
-Searches
         │
         ▼
 Detection Rules
@@ -120,7 +84,10 @@ Detection Rules
 Alerts
         │
         ▼
-SOC Dashboards
+Dashboards
+        │
+        ▼
+Investigations
 ```
 
 ---
@@ -158,50 +125,6 @@ Lateral Movement
         │
         ▼
 Detection
-        │
-        ▼
-Incident Investigation
-```
-
----
-
-# Trust Boundaries
-
-The environment is logically divided into multiple security zones.
-
-| Security Zone | Components |
-|--------------|------------|
-| External Network | Kali Linux (AWS) |
-| Remote Access Zone | OpenVPN Server |
-| Internal Network | Windows Endpoint, Active Directory |
-| Monitoring Zone | Splunk Enterprise |
-
----
-
-# Detection Architecture
-
-Security events progress through the following workflow:
-
-```text
-Telemetry Collection
-        │
-        ▼
-Log Parsing
-        │
-        ▼
-Indexing
-        │
-        ▼
-Detection Rules
-        │
-        ▼
-Alert Generation
-        │
-        ▼
-SOC Dashboards
-        │
-        ▼
-Threat Hunting
         │
         ▼
 Incident Investigation
