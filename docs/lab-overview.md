@@ -303,6 +303,9 @@ Each attack simulation generates telemetry that is validated against implemented
 
 * Splunk SIEM
 * Splunk Universal Forwarder
+* Splunk Add-on for Microsoft Windows
+* Splunk Common Information Model
+* Splunk Security Essentials
 * Active Directory Domain Services
 * Windows Server 2022
 * Windows 10

@@ -133,6 +133,9 @@ For detailed architecture diagrams and network design, see:
 | Technology | Purpose |
 |------------|---------|
 | Splunk Enterprise | SIEM, detection engineering, dashboards, investigations |
+| Splunk Add-on for Microsoft Windows | Windows Event parsing, field extraction, CIM normalization |
+| Splunk Common Information Model (CIM) | Standardized field normalization and data model support |
+| Splunk Security Essentials | Detection engineering references and ATT&CK-aligned content |
 | Windows Server 2022 | Active Directory Domain Controller |
 | Windows 10 | Domain-joined endpoint |
 | Sysmon | Advanced endpoint telemetry |
@@ -140,7 +143,7 @@ For detailed architecture diagrams and network design, see:
 | OpenVPN | Secure remote access simulation |
 | VMware Workstation | Virtualization platform |
 | AWS EC2 (Kali Linux) | External attacker simulation |
-| Git & GitHub |project documentation |
+| Git & GitHub | Version control and project documentation |
 
 ---
 

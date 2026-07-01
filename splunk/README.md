@@ -174,13 +174,75 @@ All forwarders send telemetry to:
 
 ### props.conf
 
-Handles event parsing and normalization.
+Handles source-specific parsing behavior inside Splunk.
+
+Field extraction and normalization for Windows events are primarily provided by the Splunk Add-on for Microsoft Windows, while props.conf contains any custom parsing rules required for this lab.
 
 Current configuration includes parsing support for:
 
 * Windows Event Logs
 * Sysmon Operational Logs
 * OpenVPN Logs
+
+
+---
+
+### Installed Splunk Apps & Add-ons
+
+#### Splunk Add-on for Microsoft Windows
+
+Provides
+
+- XML field extraction
+- EventCode extraction
+- Account fields
+- Logon fields
+- Process fields
+- CIM-compatible field mapping
+
+Version
+
+	10.0.1
+
+Used For
+
+- Windows Security Logs
+- Active Directory Logs
+- Sysmon Logs
+
+---
+
+#### Splunk Common Information Model (CIM)
+
+Provides
+
+- Authentication data model
+- Endpoint data model
+- Change data model
+- Common field naming
+
+Purpose
+
+- Standardized field normalization
+- Data model compatibility
+- Detection engineering support
+  
+---
+
+#### Splunk Security Essentials
+
+Provides
+
+- Detection examples
+- ATT&CK mappings
+- Hunting searches
+- SOC use case references
+
+Purpose
+
+- Detection references
+- ATT&CK mapping
+- Hunting examples
 
 ---
 

@@ -65,8 +65,8 @@ For the complete Active Directory structure, including Organizational Units, use
 
 ```text
 Windows Endpoint
-DC1
-VPN Server
+Domain Controller
+OpenVPN Server
         │
         ▼
 Splunk Universal Forwarder
@@ -78,6 +78,12 @@ Splunk Enterprise
 Indexes
         │
         ▼
+Splunk Add-on for Microsoft Windows
+        │
+        ▼
+Field Extraction & Normalization
+        │
+        ▼
 Detection Rules
         │
         ▼
@@ -87,7 +93,10 @@ Alerts
 Dashboards
         │
         ▼
-Investigations
+Threat Hunting
+        │
+        ▼
+Incident Investigation
 ```
 
 ---

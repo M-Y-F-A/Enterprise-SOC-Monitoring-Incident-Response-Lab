@@ -27,10 +27,12 @@ Brute force attacks attempt to gain unauthorized access by repeatedly trying dif
 # SPL Search
 
 ```spl
-index=windows sourcetype="WinEventLog:Security" EventCode=4625
+(index=windows OR index=ad)
+sourcetype="XmlWinEventLog:Security"
+EventCode=4625
 | bucket span=5m _time
-| stats count values(Workstation_Name) AS SourceHosts values(IpAddress) AS SourceIPs by TargetUserName _time
-| where count >= 10
+| stats count values(host) AS Hosts values(IpAddress) AS SourceIPs by TargetUserName _time
+| where count>=10
 | rename TargetUserName AS User
 | sort -count
 ```

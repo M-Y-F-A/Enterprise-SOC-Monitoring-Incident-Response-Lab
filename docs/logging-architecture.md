@@ -63,6 +63,32 @@ All telemetry is sent to the Splunk receiving port:
 
 ---
 
+# Log Parsing & Normalization
+
+```text
+Windows Events
+        │
+        ▼
+Universal Forwarder
+        │
+        ▼
+Splunk Enterprise
+        │
+        ▼
+Splunk Add-on for Microsoft Windows
+        │
+        ▼
+Field Extraction
+        │
+        ▼
+Indexes
+        │
+        ▼
+Detection Rules
+```
+
+---
+
 # Index Strategy
 
 Collected events are organized into dedicated indexes based on their source.
