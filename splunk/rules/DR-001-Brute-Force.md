@@ -27,9 +27,10 @@ Brute force attacks attempt to gain unauthorized access by repeatedly trying dif
 # SPL Search
 
 ```spl
-(index=windows OR index=ad)
-sourcetype="XmlWinEventLog:Security"
-EventCode=4625
+(index=windows OR index=ad) 
+sourcetype=XmlWinEventLog 
+source="XmlWinEventLog:Security" 
+EventCode=4625 
 | bucket span=5m _time
 | stats count values(host) AS Hosts values(IpAddress) AS SourceIPs by TargetUserName _time
 | where count>=10
@@ -50,8 +51,6 @@ EventCode=4625
 | Event ID | Description |
 |----------|-------------|
 | 4625 | Failed Logon |
-| 4624 | Successful Logon |
-| 4740 | User Account Locked |
 
 ---
 
@@ -75,8 +74,6 @@ EventCode=4625
 Generate an alert when:
 
 - Ten or more failed logon attempts occur against the same account within five minutes.
-- Failed logon attempts originate from the same host or IP address.
-- Multiple failed logons are followed by a successful authentication or account lockout.
 
 ---
 
