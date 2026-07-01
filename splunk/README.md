@@ -102,7 +102,7 @@ The Splunk environment uses a source-based index model to separate telemetry by 
 ## Configuration Architecture
 
 ```text
-                         Splunk Server
+                       Splunk Server
                       (192.168.10.10)
                    ┌────────────────────┐
                    │    indexes.conf    │
@@ -182,8 +182,6 @@ Current configuration includes parsing support for:
 * Sysmon Operational Logs
 * OpenVPN Logs
 
-Additional field extraction and normalization rules will be added as the lab evolves.
-
 ---
 
 ## Detection Engineering
@@ -248,5 +246,3 @@ This Splunk deployment is designed to simulate a real-world Security Operations 
 * Threat Hunting
 * Active Directory Monitoring
 * Endpoint Visibility
-
-The environment serves as a foundation for future attack simulations, detection development, and incident response exercises.
